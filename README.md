@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bdf30008 (initial commit)
+>>>>>>> login-form
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,3 +75,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+# debt-tracker-front-end
+Debt tracker app front-end user interface
+>>>>>>> c2c54d4e (Initial commit)
+=======
+>>>>>>> bdf30008 (initial commit)
+>>>>>>> login-form
