@@ -6,6 +6,8 @@ function App() {
   // React states
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   // Fake user login info
   const database = [
@@ -24,16 +26,12 @@ function App() {
     pass: "invalid password",
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    var { uname, pass } = document.forms[0];
-
+  const handleSubmit = () => {
     // Find user login info
-    const userData = database.find((user) => user.username === uname.value);
+    const userData = database.find((user) => user.username === username);
 
     if (userData) {
-      if (userData.password !== pass.value) {
+      if (userData.password !== password) {
         setErrorMessages({ name: "pass", message: errors.pass });
       } else {
         setIsSubmitted(true);
@@ -49,24 +47,42 @@ function App() {
       <div className="error">{errorMessages.message}</div>
     );
 
+  const onChangeUsername = (element) => {
+    setUsername(element.target.value);
+  };
+
+  const onChangePassword = (element) => {
+    setPassword(element.target.value);
+  };
+
   // JSX login form
   const renderForm = (
     <div className="form">
-      <form onSubmit={handleSubmit}>
-        <div className="input-container">
-          <label>Username </label>
-          <input type="text" name="uname" required />
-          {renderErrorMessage("uname")}
-        </div>
-        <div className="input-container">
-          <label>Password </label>
-          <input type="password" name="pass" required />
-          {renderErrorMessage("pass")}
-        </div>
-        <div className="button-container">
-          <input type="submit" />
-        </div>
-      </form>
+      <div className="input-container">
+        <label>Username </label>
+        <input
+          type="text"
+          name="uname"
+          value={username}
+          onChange={onChangeUsername}
+          required
+        />
+        {renderErrorMessage("uname")}
+      </div>
+      <div className="input-container">
+        <label>Password </label>
+        <input
+          type="password"
+          name="pass"
+          onChange={onChangePassword}
+          value={password}
+          required
+        />
+        {renderErrorMessage("pass")}
+      </div>
+      <div className="button-container">
+        <button onClick={handleSubmit}>Submit</button>
+      </div>
     </div>
   );
 
