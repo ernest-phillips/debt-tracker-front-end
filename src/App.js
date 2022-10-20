@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./styles.css";
 
@@ -8,6 +8,7 @@ function App() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Fake user login info
   const database = [
@@ -21,7 +22,23 @@ function App() {
     },
   ];
 
-  const errors = {
+  // fetch user info from database
+  useEffect(() => {
+    fetch("https://localhost:3000/login")
+      .then((res) => res.json())
+      .then((data) => {
+        setIsLoaded(true);
+        setItems(data);
+  },
+  // handle error
+  (error) => {
+    setIsLoaded(true);
+    setError(error);
+  },
+  []);
+
+
+const errors = {
     uname: "invalid username",
     pass: "invalid password",
   };
