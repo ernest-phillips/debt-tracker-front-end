@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import "./styles.css";
 
@@ -9,53 +9,79 @@ function App() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
+  const setItems = useState([]);
 
   // Fake user login info
-  const database = [
-    {
-      username: "user1",
-      password: "pass1",
-    },
-    {
-      username: "user2",
-      password: "pass2",
-    },
-  ];
+  // const database = [
+  //   {
+  //     username: "user1",
+  //     password: "pass1",
+  //   },
+  //   {
+  //     username: "user2",
+  //     password: "pass2",
+  //   },
+  // ];
 
   // fetch user info from database
-  useEffect(() => {
-    fetch("https://localhost:3000/login")
-      .then((res) => res.json())
-      .then((data) => {
-        setIsLoaded(true);
-        setItems(data);
-  },
-  // handle error
-  (error) => {
-    setIsLoaded(true);
-    setError(error);
-  },
-  []);
+  // useEffect(() => {
 
+  //     .then((data) => {
+  //       setIsLoaded(true);
+  //       setItems(data);
+  //     }, []);
+  // }, [setItems]);
 
-const errors = {
+  const errors = {
     uname: "invalid username",
     pass: "invalid password",
   };
 
-  const handleSubmit = () => {
-    // Find user login info
-    const userData = database.find((user) => user.username === username);
+  async function myAPI(method, path, json) {
+    let url = new URL(path, "https://localhost:3000/");
 
-    if (userData) {
-      if (userData.password !== password) {
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        setIsSubmitted(true);
-      }
-    } else {
-      setErrorMessages({ name: "uname", message: errors.uname });
+    let response = await fetch(url, {
+      method,
+      body: JSON.stringify(json),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      mode: "cors",
+      credentials: "same-origin",
+      // redirect: "follow",
+      // referrerPolicy: "no-referrer",
+    });
+    console.log(response);
+    if (!response.ok) {
+      throw response;
     }
+    let data = await response.json();
+    return data;
+  }
+
+  const handleSubmit = async () => {
+    // Find user login info
+    const loginData = {
+      authentication: {
+        email: username,
+        password: password,
+      },
+    };
+
+    const response = await myAPI("POST", "/login", loginData);
+    console.log(response);
+    // fetch("https://localhost:3000/login").then((response) => response.json());
+
+    // if (userData) {
+    //   if (userData.password !== password) {
+    //     setErrorMessages({ name: "pass", message: errors.pass });
+    //   } else {
+    //     setIsSubmitted(true);
+    //   }
+    // } else {
+    //   setErrorMessages({ name: "uname", message: errors.uname });
+    // }
   };
 
   // Generate JSX code for error message
